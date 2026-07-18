@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TelaInicial.unity
+    guid: 7085299c1dc2b6442b8403ace1b84cc3
+  - enabled: 1
+    path: Assets/Scenes/Fase1.unity
+    guid: 22b16b036017ae54396f1bbdac4c7bfc
+  m_configObjects: {}
