@@ -49,4 +49,22 @@ public class UIFases : MonoBehaviour
     {
         painelSaida.SetActive(abrir);
     }
+
+    public void EncarregarSeSliderSons(float valor)
+    {
+        PlayerPrefs.SetFloat("Sons", valor);
+        PlayerPrefs.Save();
+    }
+
+    public void EncarregarSeSliderSensibilidade(float valor)
+    {
+        PlayerPrefs.SetFloat("Sensibilidade", valor);
+        PlayerPrefs.Save();
+    }
+
+    public void EncarregarSeSliderMusica(float valor)
+    {
+        PlayerPrefs.SetFloat("Música", valor);
+        PlayerPrefs.Save();
+    }
 }

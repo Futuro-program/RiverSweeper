@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class MovimentoBarco : MonoBehaviour
 {
+    public int lado;
     [SerializeField] float modVelocidade = 5f;
     CharacterController controlador;
     Animator animador;
@@ -21,9 +22,15 @@ public class MovimentoBarco : MonoBehaviour
         float movimentoX = Input.GetAxis("Horizontal");
 
         if (movimentoX > 0)
+        {
             Global.inst.CoordenarAnimacaoBool(animador, "VirarDireita");
+            lado = 1;
+        }
         else if (movimentoX < 0)
+        {
             Global.inst.CoordenarAnimacaoBool(animador, "VirarEsquerda");
+            lado = -1;
+        }
 
         controlador.Move(Time.deltaTime * modVelocidade * movimentoX * Vector3.right);
     }

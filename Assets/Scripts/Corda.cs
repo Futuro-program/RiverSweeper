@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Corda : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] LineRenderer linha;
+    [SerializeField] Transform anzol;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        linha.SetPosition(2, anzol.localPosition);
     }
 }

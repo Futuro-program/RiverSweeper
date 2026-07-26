@@ -15,7 +15,8 @@ public class MovimentoCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Vector3 direcCamera = (alvo.position - transform.position) * Vector2.right * 0.9f;
+        float sensibilidade = PlayerPrefs.GetFloat("Sensibilidade", 0) / 50;
+        Vector3 direcCamera = (alvo.position - transform.position) * Vector2.right * sensibilidade;
         transform.position += direcCamera;
     }
 }
