@@ -23,7 +23,7 @@ public class MovimentoLixo : MonoBehaviour
         else if (transform.position.y < -10)
             corpoRigido.velocity += corpoRigido.velocity.y * 2 * Vector3.down;
 
-        if (Mathf.Abs(transform.position.x) > 20)
+        if (Mathf.Abs(transform.position.x) > 50)
             corpoRigido.velocity += corpoRigido.velocity.x * 2 * Vector3.left;
     }
 }

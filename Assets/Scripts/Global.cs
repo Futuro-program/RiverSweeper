@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Global : MonoBehaviour
@@ -24,11 +25,25 @@ public class Global : MonoBehaviour
         lixoColetado.SetText($"Lixo coletado: {cLixoColetado}");
     }
 
-    // Update is called once per frame
+    // FixedUpdate é chamado pelo Runtime do Unity.
     void FixedUpdate()
     {
         float angulo = Time.fixedTime / 5;
         luzGlobal.rotation = Quaternion.Euler(angulo, 0, 0);
+    }
+
+    void Update()
+    {
+        if (Time.time / 60 > 15)
+        {
+            if (cLixoColetado > 100)
+                CarregarFimJogo();
+        }
+    }
+
+    void CarregarFimJogo()
+    {
+        SceneManager.LoadScene("Scenes/FimJogo");
     }
 
     public void PegarLixo()

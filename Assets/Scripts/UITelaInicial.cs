@@ -1,22 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Classes;
+using TMPro;
 
 public class UI : MonoBehaviour
 {
     [SerializeField] GameObject painelLoja;
     [SerializeField] GameObject painelCreditos;
     [SerializeField] GameObject painelOpcoes;
+    [SerializeField] GameObject painelVerifCompra;
+    [SerializeField] TextMeshProUGUI textoImpedimentoCompra;
+    EstatsJogador estats;
+    ItemCompra itemTentadoComprar;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        estats = FindObjectOfType<EstatsJogador>();
     }
 
     public void Iniciar()
@@ -44,9 +45,35 @@ public class UI : MonoBehaviour
         painelLoja.SetActive(abrir);
     }
 
-    public void ComprarOuEquipar(string item)
+    public void ComprarOuEquipar(Item item)
     {
-        
+        try
+        {
+            estats.EquiparVara(item.vara.nome);
+        }
+        catch (Exception)
+        {
+            painelVerifCompra.SetActive(true);
+            itemTentadoComprar = item.vara;
+        }
+    }
+
+    public void ConfirmarCompra(bool resposta)
+    {
+        if (resposta)
+        {
+            try
+            {
+                estats.Pagar(itemTentadoComprar.valor);
+                estats.AdicionarVara(itemTentadoComprar.nome);
+            }
+            catch (Exception e)
+            {
+                textoImpedimentoCompra.text = e.Message;
+            }
+        }
+
+        painelVerifCompra.SetActive(false);
     }
 
     public void EncarregarSeSliderSons(float valor)

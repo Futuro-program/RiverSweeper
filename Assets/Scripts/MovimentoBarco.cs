@@ -1,26 +1,36 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
 public class MovimentoBarco : MonoBehaviour
 {
     public int lado;
     [SerializeField] float modVelocidade = 5f;
-    CharacterController controlador;
+    Rigidbody corpoRigido;
     Animator animador;
+    float inputX;
     
     // Start is called before the first frame update
     void Start()
     {
-        controlador = GetComponent<CharacterController>();
+        corpoRigido = GetComponent<Rigidbody>();
         animador = GetComponent<Animator>();
+        lado = 1;
     }
 
-    // Update is called once per frame
+    // FixedUpdate is called by the Unity Runtime.
+    void FixedUpdate()
+    {
+        Mover(inputX);
+    }
+
     void Update()
     {
-        float movimentoX = Input.GetAxis("Horizontal");
+        inputX = Input.GetAxis("Horizontal");
+    }
 
+    void Mover(float movimentoX)
+    {
         if (movimentoX > 0)
         {
             Global.inst.CoordenarAnimacaoBool(animador, "VirarDireita");
@@ -32,6 +42,12 @@ public class MovimentoBarco : MonoBehaviour
             lado = -1;
         }
 
-        controlador.Move(Time.deltaTime * modVelocidade * movimentoX * Vector3.right);
+        corpoRigido.MovePosition(corpoRigido.position + Time.deltaTime * modVelocidade * movimentoX * Vector3.right);
+        if (Mathf.Abs(corpoRigido.position.x) > 185)
+            corpoRigido.MovePosition(new Vector3(
+                185 * Mathf.Abs(corpoRigido.position.x) / corpoRigido.position.x, 
+                corpoRigido.position.y,
+                corpoRigido.position.z
+            ));
     }
 }

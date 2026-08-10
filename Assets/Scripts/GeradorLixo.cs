@@ -16,7 +16,7 @@ public class GeradorLixo : MonoBehaviour
     void Update()
     {
         transform.position = new(mainCamera.position.x, 0);
-        if (Time.time - cooldownLixo > 10)
+        if (Time.time - cooldownLixo > 5)
         {
             cooldownLixo = Time.time;
             Instantiate(

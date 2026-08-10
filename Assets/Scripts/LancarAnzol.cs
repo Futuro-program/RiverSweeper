@@ -74,7 +74,8 @@ public class LancamentoAnzol : MonoBehaviour
             {
                 anzol.velocidade = (
                     transform.position - anzol.transform.position
-                ).normalized * 10;
+                ).normalized;
+                anzol.accel = 1;
                 break;
             }
         }
@@ -82,11 +83,13 @@ public class LancamentoAnzol : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (estado == 2)
-            anzol.velocidade.y -= 2;
+        if (estado != 3 && anzol.transform.position.y > 0)
+        {
+            anzol.accel = estado == 2 ? -1 : 0;
+        }
     }
 
-    void OnCollisionEnter(Collision outro)
+    void OnTriggerEnter(Collider outro)
     {
         if (outro.gameObject.CompareTag("Anzol") && estado == 3)
             estado = 0;
