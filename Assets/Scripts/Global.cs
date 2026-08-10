@@ -7,6 +7,7 @@ public class Global : MonoBehaviour
     [SerializeField] Transform luzGlobal;
     [SerializeField] TextMeshProUGUI lixoColetado;
     public static Global inst;
+    EstatsJogador estatsJogador;
     public bool pausado = false;
     public int fase = 1;
     int cLixoColetado = 0;
@@ -36,6 +37,8 @@ public class Global : MonoBehaviour
     {
         if (Time.time / 60 > 15)
         {
+            estatsJogador.IncrementarLixoColetado(cLixoColetado);
+
             if (cLixoColetado > 100)
                 CarregarFimJogo();
         }

@@ -84,7 +84,7 @@ public class APISalve : IServicoDados
 
         if (!File.Exists(caminho))
         {
-            Debug.LogError("Não pode carregar um arquivo que não existe!");
+            // Debug.LogError("Não pode carregar um arquivo que não existe!");
             throw new FileNotFoundException($"caminho {caminho} não existe!");
         }
 

@@ -6,10 +6,8 @@ using TMPro;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] GameObject painelLoja;
-    [SerializeField] GameObject painelCreditos;
-    [SerializeField] GameObject painelOpcoes;
-    [SerializeField] GameObject painelVerifCompra;
+    [SerializeField] GameObject painelLoja, painelCreditos, painelOpcoes, painelVerifCompra;
+    [SerializeField] LogicaBotao[] botoesCompra;
     [SerializeField] TextMeshProUGUI textoImpedimentoCompra;
     EstatsJogador estats;
     ItemCompra itemTentadoComprar;
@@ -50,6 +48,8 @@ public class UI : MonoBehaviour
         try
         {
             estats.EquiparVara(item.vara.nome);
+            foreach (var botao in botoesCompra)
+                botao.Verificar();
         }
         catch (Exception)
         {
@@ -66,6 +66,8 @@ public class UI : MonoBehaviour
             {
                 estats.Pagar(itemTentadoComprar.valor);
                 estats.AdicionarVara(itemTentadoComprar.nome);
+                foreach (var botao in botoesCompra)
+                    botao.Verificar();
             }
             catch (Exception e)
             {
