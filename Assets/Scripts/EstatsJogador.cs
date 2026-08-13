@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Linq;
-using Assets.Scripts.Classes;
+using Assets.Scripts.Estruturas;
 
 public class EstatsJogador : MonoBehaviour
 {
@@ -15,13 +15,13 @@ public class EstatsJogador : MonoBehaviour
 
         try
         {
-            /*jog = new(0, 0, 0, "madeira", new string[] {"madeira"});
+            /*jog = new(0, 0, 1, "madeira", new string[] {"madeira"});
             servicoDados.SalvarDados(CAMINHORELATIVO, jog, true);*/
             jog = servicoDados.CarregarDados<Jogador>(CAMINHORELATIVO, true);
         }
         catch (FileNotFoundException)
         {
-            jog = new(0, 0, 0, "madeira", new string[] {"madeira"});
+            jog = new(0, 0, 1, "madeira", new string[] {"madeira"});
         }
 
         return jog;

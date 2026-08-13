@@ -1,15 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
+using Assets.Scripts.Estruturas;
 
 public class Global : MonoBehaviour
 {
-    [SerializeField] Transform luzGlobal;
-    [SerializeField] TextMeshProUGUI lixoColetado;
     public static Global inst;
-    EstatsJogador estatsJogador;
     public bool pausado = false;
     public int fase = 1;
+    [SerializeField] Transform luzGlobal;
+    [SerializeField] TextMeshProUGUI lixoColetado, dinheiroObtido, tempoRestante;
+    [SerializeField] AudioClip somVitoria, somDerrota;
+    const int TEMPOFIM = 5;
+    readonly EstatsJogador estatsJogador;
+    float tDinheiroGanho = 0;
     int cLixoColetado = 0;
 
     void Awake()
@@ -24,35 +29,49 @@ public class Global : MonoBehaviour
     void Start()
     {
         lixoColetado.SetText($"Lixo coletado: {cLixoColetado}");
+        dinheiroObtido.SetText($"{tDinheiroGanho:C}");
+        tempoRestante.SetText($"{TimeSpan.FromMinutes(TEMPOFIM - (double)Time.time / 60):mm\\:ss}");
     }
 
     // FixedUpdate é chamado pelo Runtime do Unity.
     void FixedUpdate()
     {
-        float angulo = Time.fixedTime / 5;
+        float angulo = 3 * Time.fixedTime / TEMPOFIM;
         luzGlobal.rotation = Quaternion.Euler(angulo, 0, 0);
     }
 
     void Update()
     {
-        if (Time.time / 60 > 15)
-        {
-            estatsJogador.IncrementarLixoColetado(cLixoColetado);
+        tempoRestante.SetText($"{TimeSpan.FromMinutes(TEMPOFIM - (double)Time.time / 60):mm\\:ss}");
 
-            if (cLixoColetado > 100)
-                CarregarFimJogo();
-        }
+        if (Time.time / 60 > TEMPOFIM)
+            CarregarFimJogo();
     }
 
     void CarregarFimJogo()
     {
-        SceneManager.LoadScene("Scenes/FimJogo");
+        estatsJogador.IncrementarLixoColetado(cLixoColetado);
+        estatsJogador.Vender(tDinheiroGanho);
+
+        if (cLixoColetado >= 100)
+        {
+            if (estatsJogador.CarregarEstatisticas().faseAtual == fase)
+                estatsJogador.PassarFase();
+            
+            Audio.inst.TocarAudio(somVitoria, 0.5f);
+        }
+        else
+            Audio.inst.TocarAudio(somDerrota);
+
+        SceneManager.LoadScene("Scenes/FimDeJogo");
     }
 
-    public void PegarLixo()
+    public void PegarLixo(Lixo lixo)
     {
         cLixoColetado++;
         lixoColetado.SetText($"Lixo coletado: {cLixoColetado}");
+        tDinheiroGanho += lixo.valor;
+        dinheiroObtido.SetText($"{tDinheiroGanho:C}");
     }
 
     public void CoordenarAnimacaoBool(Animator animador, string nomeParametro)

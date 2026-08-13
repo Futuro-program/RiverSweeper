@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Classes
+namespace Assets.Scripts.Estruturas
 {
     public readonly struct ItemCompra
     {

@@ -1,20 +1,22 @@
 using UnityEngine;
+using Assets.Scripts.Estruturas;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(Rigidbody))]
 public class MovimentoLixo : MonoBehaviour
 {
-    MeshFilter malha;
+    [SerializeField] float valor, peso;
+    [SerializeField] string tipo;
     Rigidbody corpoRigido;
-    [SerializeField] Mesh[] malhasSel;
+    Lixo lixo;
 
     // Start is called before the first frame update
     void Start()
     {
-        malha = GetComponent<MeshFilter>();
-        malha.mesh = malhasSel[Random.Range(0, malhasSel.Length - 1)];
         corpoRigido = GetComponent<Rigidbody>();
         corpoRigido.velocity = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5));
+
+        lixo = new(valor, peso, tipo);
     }
 
     void Update() {
@@ -25,5 +27,14 @@ public class MovimentoLixo : MonoBehaviour
 
         if (Mathf.Abs(transform.position.x) > 50)
             corpoRigido.velocity += corpoRigido.velocity.x * 2 * Vector3.left;
+    }
+
+    void OnTriggerEnter(Collider outro)
+    {
+        if (outro.gameObject.CompareTag("Player"))
+        {
+            Global.inst.PegarLixo(lixo);
+            Destroy(gameObject);
+        }
     }
 }

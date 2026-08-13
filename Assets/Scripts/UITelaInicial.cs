@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Assets.Scripts.Classes;
+using Assets.Scripts.Estruturas;
 using TMPro;
 
 public class UI : MonoBehaviour

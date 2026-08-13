@@ -1,19 +1,19 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class LogicaAnzol : MonoBehaviour
 {
-    public CharacterController controlador;
+    public Rigidbody corpoRigido;
     public Vector3 velocidade;
     public float accel = -1;
+    public float massa = 1;
     [SerializeField] float densidadeAgua = 1;
     [SerializeField] float volume = 2;
-    [SerializeField] float massa = 1;
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        controlador = GetComponent<CharacterController>();
+        corpoRigido = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class LogicaAnzol : MonoBehaviour
         Vector3 velAnterior = new(velocidade.x, velocidade.y, velocidade.z);
         velocidade.y += accel;
 
-        controlador.Move(Time.deltaTime / 2 * (velocidade + velAnterior));
+        corpoRigido.MovePosition(corpoRigido.position + Time.deltaTime / 2 * (velocidade + velAnterior));
     }
 
     void OnTriggerEnter(Collider outro)
@@ -44,6 +44,10 @@ public class LogicaAnzol : MonoBehaviour
             float resultante = empuxo - peso;
             accel = resultante / massa;
             velocidade -= velocidade * 0.2f;
+        }
+        else if (outro.gameObject.CompareTag("Lixo"))
+        {
+            outro.GetComponent<MovimentoLixo>();
         }
     }
 }

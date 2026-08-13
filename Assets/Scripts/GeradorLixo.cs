@@ -3,7 +3,7 @@ using UnityEngine;
 public class GeradorLixo : MonoBehaviour
 {
     [SerializeField] Transform mainCamera;
-    [SerializeField] GameObject prefab;
+    [SerializeField] GameObject[] prefabsLixo;
     float cooldownLixo;
 
     // Start is called before the first frame update
@@ -20,7 +20,8 @@ public class GeradorLixo : MonoBehaviour
         {
             cooldownLixo = Time.time;
             Instantiate(
-                prefab, new Vector3(Random.Range(-12, 12), Random.Range(-10, 0)), 
+                prefabsLixo[Random.Range(0, prefabsLixo.Length)], 
+                new Vector3(Random.Range(-12, 12), Random.Range(-10, 0)), 
                 Quaternion.identity, transform
             );
         }

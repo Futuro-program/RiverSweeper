@@ -1,4 +1,4 @@
-using Assets.Scripts.Classes;
+using Assets.Scripts.Estruturas;
 using UnityEngine;
 
 public class Item : MonoBehaviour

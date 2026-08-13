@@ -8,7 +8,22 @@ public class LancamentoAnzol : MonoBehaviour
     [SerializeField] int forcaLancamento;
     float anguloLancamento;
     float tempoPress;
+    int forcaPuxada;
     int estado;
+
+    void Start()
+    {
+        string varaEquipada = FindObjectOfType<EstatsJogador>().CarregarEstatisticas().varaEquipada;
+
+        forcaPuxada = varaEquipada switch {
+            "madeira" => 1,
+            "bambu" => 5,
+            "metal" => 10,
+            "ferro" => 15,
+            "obsidiana" => 20,
+            _ => throw new System.Exception("???")
+        };
+    }
 
     // Update is called once per frame
     void Update()
@@ -74,7 +89,7 @@ public class LancamentoAnzol : MonoBehaviour
             {
                 anzol.velocidade = (
                     transform.position - anzol.transform.position
-                ).normalized;
+                ).normalized * forcaPuxada / anzol.massa;
                 anzol.accel = 1;
                 break;
             }
