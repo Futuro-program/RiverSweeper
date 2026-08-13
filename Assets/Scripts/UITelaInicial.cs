@@ -47,7 +47,9 @@ public class UI : MonoBehaviour
     {
         try
         {
-            estats.EquiparVara(item.vara.nome);
+            if (item.vara.nome != estats.CarregarEstatisticas().varaEquipada)
+                estats.EquiparVara(item.vara.nome);
+
             foreach (var botao in botoesCompra)
                 botao.Verificar();
         }

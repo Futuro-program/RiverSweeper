@@ -7,6 +7,6 @@ public class Corda : MonoBehaviour
 
     void Update()
     {
-        linha.SetPosition(2, anzol.localPosition);
+        linha.SetPosition(2, new Vector3(anzol.position.x, 0, anzol.position.y));
     }
 }

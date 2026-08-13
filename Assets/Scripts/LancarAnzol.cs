@@ -34,7 +34,7 @@ public class LancamentoAnzol : MonoBehaviour
         {
             case 0: 
             {
-                anzol.transform.localPosition = Vector3.left * 0.1f;
+                anzol.transform.position = Vector3.left * 0.1f;
                 anzol.velocidade = Vector3.zero;
 
                 if (pressBotao)
@@ -47,7 +47,7 @@ public class LancamentoAnzol : MonoBehaviour
             }
             case 1:
             {
-                anzol.transform.localPosition = Vector3.left * 0.2f;
+                anzol.transform.position = Vector3.left * 0.2f;
 
                 if (!guia.gameObject.activeSelf)
                     guia.gameObject.SetActive(true);
@@ -58,8 +58,7 @@ public class LancamentoAnzol : MonoBehaviour
                 anguloLancamento = Mathf.LerpAngle(0, 90, fator / tempoMax);
 
                 guia.SetPosition(1, new Vector3(
-                    -Mathf.Cos(anguloLancamento * Mathf.Deg2Rad),
-                    0,
+                    Mathf.Cos(anguloLancamento * Mathf.Deg2Rad),
                     Mathf.Sin(anguloLancamento * Mathf.Deg2Rad)
                 ));
 
@@ -71,7 +70,7 @@ public class LancamentoAnzol : MonoBehaviour
                     );
                     
                     estado = 2;
-                }   
+                }
                 
                 break;
             }

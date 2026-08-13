@@ -28,7 +28,7 @@ public class Global : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lixoColetado.SetText($"Lixo coletado: {cLixoColetado}");
+        lixoColetado.SetText($"{cLixoColetado}");
         dinheiroObtido.SetText($"{tDinheiroGanho:C}");
         tempoRestante.SetText($"{TimeSpan.FromMinutes(TEMPOFIM - (double)Time.time / 60):mm\\:ss}");
     }
