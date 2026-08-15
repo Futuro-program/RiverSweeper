@@ -5,9 +5,10 @@ public class LancamentoAnzol : MonoBehaviour
     [SerializeField] MovimentoBarco barco;
     [SerializeField] LogicaAnzol anzol;
     [SerializeField] LineRenderer guia;
-    [SerializeField] int forcaLancamento;
+    [SerializeField] AudioClip somPuxada, somLancamento;
     float anguloLancamento;
     float tempoPress;
+    int forcaLancamento;
     int forcaPuxada;
     int estado;
 
@@ -15,12 +16,20 @@ public class LancamentoAnzol : MonoBehaviour
     {
         string varaEquipada = FindObjectOfType<EstatsJogador>().CarregarEstatisticas().varaEquipada;
 
+        forcaLancamento = varaEquipada switch {
+            "madeira" => 7,
+            "bambu" => 12,
+            "metal" => 20,
+            "ferro" => 30,
+            "obsidiana" => 40,
+            _ => throw new System.Exception("???")
+        };
         forcaPuxada = varaEquipada switch {
-            "madeira" => 1,
+            "madeira" => 2,
             "bambu" => 5,
             "metal" => 10,
-            "ferro" => 15,
-            "obsidiana" => 20,
+            "ferro" => 20,
+            "obsidiana" => 30,
             _ => throw new System.Exception("???")
         };
     }
@@ -34,7 +43,8 @@ public class LancamentoAnzol : MonoBehaviour
         {
             case 0: 
             {
-                anzol.transform.position = Vector3.left * 0.1f;
+                anzol.travado = true;
+                anzol.transform.position = barco.transform.position + new Vector3(barco.lado * 0.5f, 1);
                 anzol.velocidade = Vector3.zero;
 
                 if (pressBotao)
@@ -47,7 +57,7 @@ public class LancamentoAnzol : MonoBehaviour
             }
             case 1:
             {
-                anzol.transform.position = Vector3.left * 0.2f;
+                anzol.transform.position = barco.transform.position + new Vector3(barco.lado, 1);
 
                 if (!guia.gameObject.activeSelf)
                     guia.gameObject.SetActive(true);
@@ -58,12 +68,14 @@ public class LancamentoAnzol : MonoBehaviour
                 anguloLancamento = Mathf.LerpAngle(0, 90, fator / tempoMax);
 
                 guia.SetPosition(1, new Vector3(
-                    Mathf.Cos(anguloLancamento * Mathf.Deg2Rad),
+                    0,
+                    Mathf.Cos(anguloLancamento * Mathf.Deg2Rad) * -barco.lado,
                     Mathf.Sin(anguloLancamento * Mathf.Deg2Rad)
                 ));
 
                 if (pressBotao)
                 {
+                    Audio.inst.TocarAudio(somLancamento);
                     anzol.velocidade = new Vector3(
                         Mathf.Cos(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento * barco.lado, 
                         Mathf.Sin(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento
@@ -76,6 +88,8 @@ public class LancamentoAnzol : MonoBehaviour
             }
             case 2:
             {
+                anzol.travado = false;
+
                 if (guia.gameObject.activeSelf)
                     guia.gameObject.SetActive(false);
 
@@ -86,6 +100,7 @@ public class LancamentoAnzol : MonoBehaviour
             }
             case 3:
             {
+                Audio.inst.TocarAudioLoop(somPuxada);
                 anzol.velocidade = (
                     transform.position - anzol.transform.position
                 ).normalized * forcaPuxada / anzol.massa;
@@ -95,17 +110,12 @@ public class LancamentoAnzol : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        if (estado != 3 && anzol.transform.position.y > 0)
-        {
-            anzol.accel = estado == 2 ? -1 : 0;
-        }
-    }
-
     void OnTriggerEnter(Collider outro)
     {
         if (outro.gameObject.CompareTag("Anzol") && estado == 3)
+        {
+            Audio.inst.PararAudioLoop();
             estado = 0;
+        }
     }
 }

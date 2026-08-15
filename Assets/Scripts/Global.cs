@@ -69,7 +69,7 @@ public class Global : MonoBehaviour
     public void PegarLixo(Lixo lixo)
     {
         cLixoColetado++;
-        lixoColetado.SetText($"Lixo coletado: {cLixoColetado}");
+        lixoColetado.SetText($"{cLixoColetado}");
         tDinheiroGanho += lixo.valor;
         dinheiroObtido.SetText($"{tDinheiroGanho:C}");
     }

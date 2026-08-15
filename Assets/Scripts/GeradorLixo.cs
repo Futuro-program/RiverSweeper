@@ -21,8 +21,8 @@ public class GeradorLixo : MonoBehaviour
             cooldownLixo = Time.time;
             Instantiate(
                 prefabsLixo[Random.Range(0, prefabsLixo.Length)], 
-                new Vector3(Random.Range(-12, 12), Random.Range(-10, 0)), 
-                Quaternion.identity, transform
+                transform.position + new Vector3(Random.Range(-12, 12), Random.Range(-10, 0)), 
+                Quaternion.identity
             );
         }
     }

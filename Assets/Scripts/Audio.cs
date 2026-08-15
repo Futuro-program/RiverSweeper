@@ -27,22 +27,29 @@ public class Audio : MonoBehaviour
 
     public void TocarAudio(AudioClip clipe, float volume = 1)
     {
+        float volAbs = PlayerPrefs.GetFloat("Sons", 50) / 50;
+
         fontesAudio[0].clip = clipe;
-        fontesAudio[0].volume = volume;
-        fontesAudio[0].Play();
+        fontesAudio[0].volume = volume * volAbs;
+        fontesAudio[0].PlayScheduled(AudioSettings.dspTime + 0.2);
         fontesAudio[0].clip = null;
     }
 
-    public void TocarAudioLoop(AudioClip clipe, float volume)
+    public void TocarAudioLoop(AudioClip clipe, float volume = 1)
     {
+        float volAbs = PlayerPrefs.GetFloat("Sons", 50) / 50;
+
         fontesAudio[1].clip = clipe;
-        fontesAudio[0].volume = volume;
+        fontesAudio[0].volume = volume * volAbs;
         fontesAudio[1].Play();
     }
 
     public void PararAudioLoop()
     {
+        float volAbs = PlayerPrefs.GetFloat("Sons", 50) / 50;
+
         fontesAudio[1].Stop();
+        fontesAudio[1].volume = volAbs;
         fontesAudio[1].clip = null;
     }
 }
