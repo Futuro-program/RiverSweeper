@@ -3,7 +3,8 @@ using UnityEngine;
 public class GeradorPeixes : MonoBehaviour
 {
     [SerializeField] Transform mainCamera;
-    [SerializeField] GameObject prefab;
+    [SerializeField] GameObject[] prefabsPeixes;
+    [SerializeField] float cooldownMax;
     float cooldownPeixe;
 
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class GeradorPeixes : MonoBehaviour
     {
         transform.position = new(mainCamera.position.x, 0);
 
-        if (Time.time - cooldownPeixe > 7)
+        if (Time.time - cooldownPeixe > cooldownMax)
         {
             int quantidade = Random.Range(3, 5);
             Gerar(quantidade);
@@ -32,8 +33,9 @@ public class GeradorPeixes : MonoBehaviour
             float posXPeixe = Random.Range(0, 1) == 1 ? 20 : -20;
 
             Instantiate(
-                prefab, new Vector3(posXPeixe, Random.Range(-10, 0)), 
-                Quaternion.identity, transform
+                prefabsPeixes[Random.Range(0, prefabsPeixes.Length)], 
+                transform.position + new Vector3(posXPeixe, Random.Range(-10, 0)), 
+                Quaternion.identity
             );
         }
     }

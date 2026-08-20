@@ -82,8 +82,7 @@ public class UI : MonoBehaviour
 
     public void EncarregarSeSliderSons(float valor)
     {
-        PlayerPrefs.SetFloat("Sons", valor);
-        PlayerPrefs.Save();
+        Audio.inst.VolumeSons = valor;
     }
 
     public void EncarregarSeSliderSensibilidade(float valor)
@@ -94,7 +93,6 @@ public class UI : MonoBehaviour
 
     public void EncarregarSeSliderMusica(float valor)
     {
-        PlayerPrefs.SetFloat("Música", valor);
-        PlayerPrefs.Save();
+        Audio.inst.VolumeMusica = valor;
     }
 }

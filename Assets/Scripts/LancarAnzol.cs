@@ -1,37 +1,65 @@
 using UnityEngine;
 
+[RequireComponent(typeof(MeshRenderer))]
 public class LancamentoAnzol : MonoBehaviour
 {
     [SerializeField] MovimentoBarco barco;
     [SerializeField] LogicaAnzol anzol;
     [SerializeField] LineRenderer guia;
+    [SerializeField] Material[] materiais;
     [SerializeField] AudioClip somPuxada, somLancamento;
+    [SerializeField] int forcaPuxada = 10;
+    MeshRenderer renderMalha;
     float anguloLancamento;
     float tempoPress;
     int forcaLancamento;
-    int forcaPuxada;
     int estado;
 
     void Start()
     {
+        renderMalha = GetComponent<MeshRenderer>();
+
         string varaEquipada = FindObjectOfType<EstatsJogador>().CarregarEstatisticas().varaEquipada;
 
-        forcaLancamento = varaEquipada switch {
-            "madeira" => 7,
-            "bambu" => 12,
-            "metal" => 20,
-            "ferro" => 30,
-            "obsidiana" => 40,
-            _ => throw new System.Exception("???")
-        };
-        forcaPuxada = varaEquipada switch {
-            "madeira" => 2,
-            "bambu" => 5,
-            "metal" => 10,
-            "ferro" => 20,
-            "obsidiana" => 30,
-            _ => throw new System.Exception("???")
-        };
+        int idxMaterial;
+
+        switch (varaEquipada)
+        {
+            case "madeira":
+            {
+                idxMaterial = 0;
+                forcaLancamento = 15;
+                break;
+            }
+            case "bambu":
+            {
+                idxMaterial = 1;
+                forcaLancamento = 23;
+                break;
+            }
+            case "metal":
+            {
+                idxMaterial = 2;
+                forcaLancamento = 32;
+                break;
+            }
+            case "ferro":
+            {
+                idxMaterial = 3;
+                forcaLancamento = 43;
+                break;
+            }
+            case "obsidiana":
+            {
+                idxMaterial = 4;
+                forcaLancamento = 54;
+                break;
+            }
+            default:
+                throw new System.Exception("???");
+        }
+        
+        renderMalha.material = materiais[idxMaterial];
     }
 
     // Update is called once per frame
@@ -43,7 +71,7 @@ public class LancamentoAnzol : MonoBehaviour
         {
             case 0: 
             {
-                anzol.travado = true;
+                anzol.Travado = true;
                 anzol.transform.position = barco.transform.position + new Vector3(barco.lado * 0.5f, 1);
                 anzol.velocidade = Vector3.zero;
 
@@ -76,9 +104,9 @@ public class LancamentoAnzol : MonoBehaviour
                 if (pressBotao)
                 {
                     Audio.inst.TocarAudio(somLancamento);
-                    anzol.velocidade = new Vector3(
+                    anzol.velocidade += new Vector3(
                         Mathf.Cos(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento * barco.lado, 
-                        Mathf.Sin(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento
+                        Mathf.Sin(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento + 20
                     );
                     
                     estado = 2;
@@ -88,7 +116,7 @@ public class LancamentoAnzol : MonoBehaviour
             }
             case 2:
             {
-                anzol.travado = false;
+                anzol.Travado = false;
 
                 if (guia.gameObject.activeSelf)
                     guia.gameObject.SetActive(false);
@@ -101,7 +129,7 @@ public class LancamentoAnzol : MonoBehaviour
             case 3:
             {
                 Audio.inst.TocarAudioLoop(somPuxada);
-                anzol.velocidade = (
+                anzol.velocidade += (
                     transform.position - anzol.transform.position
                 ).normalized * forcaPuxada / anzol.massa;
                 anzol.accel = 1;

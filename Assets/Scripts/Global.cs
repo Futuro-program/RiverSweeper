@@ -12,7 +12,7 @@ public class Global : MonoBehaviour
     [SerializeField] Transform luzGlobal;
     [SerializeField] TextMeshProUGUI lixoColetado, dinheiroObtido, tempoRestante;
     [SerializeField] AudioClip somVitoria, somDerrota;
-    const int TEMPOFIM = 5;
+    const int TEMPOFIM = 3;
     readonly EstatsJogador estatsJogador;
     float tDinheiroGanho = 0;
     int cLixoColetado = 0;

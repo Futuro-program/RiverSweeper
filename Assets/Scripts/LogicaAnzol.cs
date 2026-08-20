@@ -6,7 +6,19 @@ public class LogicaAnzol : MonoBehaviour
     public Vector3 velocidade;
     public float accel = -1;
     public float massa = 1;
-    public bool travado;
+    public bool Travado {
+        get
+        {
+            return corpoRigido.constraints.HasFlag(RigidbodyConstraints.FreezeAll);
+        }
+        set
+        {
+            if (value)
+                corpoRigido.constraints = RigidbodyConstraints.FreezeAll;
+            else
+                corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
+        }
+    }
     [SerializeField] AudioClip somSplash;
     [SerializeField] float volume = 2;
     const float ACCELGRAVIDADE = 1;
@@ -17,15 +29,16 @@ public class LogicaAnzol : MonoBehaviour
     void Start()
     {
         corpoRigido = GetComponent<Rigidbody>();
-    }
+        string varaEquipada = FindObjectOfType<EstatsJogador>().CarregarEstatisticas().varaEquipada;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (travado)
-            corpoRigido.constraints = RigidbodyConstraints.FreezeAll;
-        else
-            corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
+        massa = varaEquipada switch {
+            "madeira" => 10,
+            "bambu" => 7,
+            "metal" => 4,
+            "ferro" => 2,
+            "obsidiana" => 1,
+            _ => throw new System.Exception("???")
+        };
     }
 
     void FixedUpdate()
@@ -58,9 +71,13 @@ public class LogicaAnzol : MonoBehaviour
     {
         if (outro.gameObject.CompareTag("Lixo"))
         {
-            outro.GetComponent<MovimentoLixo>();
+            MovimentoLixo movLixo = outro.GetComponent<MovimentoLixo>();
+            movLixo.Travado = true;
+            movLixo.transform.SetParent(transform);
+            movLixo.transform.localPosition = Vector3.zero;
+            massa += movLixo.massa; 
         }
-        else if (outro.gameObject.CompareTag("Water") && !travado)
+        else if (outro.gameObject.CompareTag("Water") && !Travado)
             Audio.inst.TocarAudio(somSplash);
     }
 

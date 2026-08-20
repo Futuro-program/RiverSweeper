@@ -4,8 +4,22 @@ using Assets.Scripts.Estruturas;
 [RequireComponent(typeof(Rigidbody))]
 public class MovimentoLixo : MonoBehaviour
 {
-    [SerializeField] AudioClip somSplash;
-    [SerializeField] float valor, massa, volume;
+    public bool Travado {
+        get
+        {
+            return corpoRigido.constraints.HasFlag(RigidbodyConstraints.FreezeAll);
+        }
+        set
+        {
+            if (value)
+                corpoRigido.constraints = RigidbodyConstraints.FreezeAll;
+            else
+                corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
+        }
+    }
+    public float massa;
+    [SerializeField] AudioClip somColeta, somSplash;
+    [SerializeField] float valor, volume;
     [SerializeField] string tipo;
     Rigidbody corpoRigido;
     const float ACCELGRAVIDADE = 10;
@@ -47,22 +61,13 @@ public class MovimentoLixo : MonoBehaviour
 
         corpoRigido.AddForce(new Vector3(0, accel), ForceMode.Acceleration);
     }
-
-    /*void Update() {
-        if (transform.position.y > 0)
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        else if (transform.position.y < -10)
-            corpoRigido.velocity += corpoRigido.velocity.y * 2 * Vector3.down;
-
-        if (Mathf.Abs(transform.position.x) > 50)
-            corpoRigido.velocity += corpoRigido.velocity.x * 2 * Vector3.left;
-    }*/
-
+    
     void OnTriggerEnter(Collider outro)
     {
-        if (outro.gameObject.CompareTag("Player"))
+        if (outro.gameObject.CompareTag("Player") && Travado)
         {
             Global.inst.PegarLixo(lixo);
+            Audio.inst.TocarAudio(somColeta);
             Destroy(gameObject);
         }
         else if (outro.gameObject.CompareTag("Water"))

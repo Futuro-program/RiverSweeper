@@ -1,8 +1,28 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Audio : MonoBehaviour
 {
     public static Audio inst;
+    public float VolumeSons
+    {
+        get
+        {
+            return PlayerPrefs.GetFloat("Sons", 50) / 50;
+        }
+        set
+        {
+            PlayerPrefs.SetFloat("Sons", value);
+            PlayerPrefs.Save();
+        }
+    }
+    public float VolumeMusica {
+        set {
+            PlayerPrefs.SetFloat("Música", value);
+            fontesAudio[2].volume = value / 50;
+            PlayerPrefs.Save();
+        }
+    }
     AudioSource[] fontesAudio;
 
     void Awake()
@@ -19,37 +39,28 @@ public class Audio : MonoBehaviour
         fontesAudio = GetComponents<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void TocarAudio(AudioClip clipe, float volume = 1)
     {
-        float volAbs = PlayerPrefs.GetFloat("Sons", 50) / 50;
-
         fontesAudio[0].clip = clipe;
-        fontesAudio[0].volume = volume * volAbs;
-        fontesAudio[0].PlayScheduled(AudioSettings.dspTime + 0.2);
-        fontesAudio[0].clip = null;
+        fontesAudio[0].volume = volume * VolumeSons;
+        fontesAudio[0].Play();
+        fontesAudio[0].volume = VolumeSons;
     }
 
     public void TocarAudioLoop(AudioClip clipe, float volume = 1)
     {
-        float volAbs = PlayerPrefs.GetFloat("Sons", 50) / 50;
-
-        fontesAudio[1].clip = clipe;
-        fontesAudio[0].volume = volume * volAbs;
-        fontesAudio[1].Play();
+        if (fontesAudio[1].clip == null)
+        {
+            fontesAudio[1].clip = clipe;
+            fontesAudio[1].volume = volume * VolumeSons;
+            fontesAudio[1].Play();
+        }
     }
 
     public void PararAudioLoop()
     {
-        float volAbs = PlayerPrefs.GetFloat("Sons", 50) / 50;
-
         fontesAudio[1].Stop();
-        fontesAudio[1].volume = volAbs;
+        fontesAudio[1].volume = VolumeSons;
         fontesAudio[1].clip = null;
     }
 }
