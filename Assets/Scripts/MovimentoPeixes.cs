@@ -1,13 +1,17 @@
 using UnityEngine;
+using Assets.Scripts.Estruturas;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(Rigidbody))]
 public class MovimentoPeixes : MonoBehaviour
 {
+    public Peixe peixe;
     MeshFilter malha;
     Rigidbody corpoRigido;
     [SerializeField] Mesh[] malhasSel;
-    int ampMovimento;
+    [SerializeField] float valor;
+    [SerializeField] int tamGrupo, ampMovimento;
+    [SerializeField] string tipo;
 
     // Start is called before the first frame update
     void Start()

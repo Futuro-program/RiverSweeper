@@ -20,7 +20,7 @@ public class GeradorLixo : MonoBehaviour
         if (Time.time - cooldownLixo > cooldownMax)
         {
             cooldownLixo = Time.time;
-            MovimentoLixo lixoSel = prefabsLixo[Random.Range(0, prefabsLixo.Length)];
+            MovimentoLixo lixoSel = SortearLixo();
 
             Instantiate(
                 lixoSel, 
@@ -28,5 +28,30 @@ public class GeradorLixo : MonoBehaviour
                 Quaternion.identity
             );
         }
+    }
+
+    MovimentoLixo SortearLixo()
+    {
+        MovimentoLixo lixoSel = null;
+        float pesoTotal = 0;
+        foreach (MovimentoLixo lixo in prefabsLixo)
+            pesoTotal += lixo.lixo.valor;
+        
+        float bobo = Random.Range(0, pesoTotal);
+
+        foreach (MovimentoLixo lixo in prefabsLixo)
+        {
+            pesoTotal -= bobo;
+
+            if (pesoTotal <= 0)
+            {
+                lixoSel = lixo;
+                break;
+            }
+        }
+
+        lixoSel = lixoSel == null ? prefabsLixo[0] : lixoSel;
+
+        return lixoSel;
     }
 }

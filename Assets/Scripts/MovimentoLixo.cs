@@ -4,6 +4,8 @@ using Assets.Scripts.Estruturas;
 [RequireComponent(typeof(Rigidbody))]
 public class MovimentoLixo : MonoBehaviour
 {
+    public Lixo lixo;
+    public float massa;
     public bool Travado {
         get
         {
@@ -17,13 +19,11 @@ public class MovimentoLixo : MonoBehaviour
                 corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
         }
     }
-    public float massa;
     [SerializeField] AudioClip somColeta, somSplash;
     [SerializeField] float valor, volume;
     [SerializeField] string tipo;
     Rigidbody corpoRigido;
     const float ACCELGRAVIDADE = 10;
-    Lixo lixo;
     float accel;
     bool submergido;
 

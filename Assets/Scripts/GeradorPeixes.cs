@@ -3,7 +3,7 @@ using UnityEngine;
 public class GeradorPeixes : MonoBehaviour
 {
     [SerializeField] Transform mainCamera;
-    [SerializeField] GameObject[] prefabsPeixes;
+    [SerializeField] MovimentoPeixes[] prefabsPeixes;
     [SerializeField] float cooldownMax;
     float cooldownPeixe;
 
@@ -19,24 +19,48 @@ public class GeradorPeixes : MonoBehaviour
         transform.position = new(mainCamera.position.x, 0);
 
         if (Time.time - cooldownPeixe > cooldownMax)
-        {
-            int quantidade = Random.Range(3, 5);
-            Gerar(quantidade);
-        }
+            Gerar();
     }
 
-    void Gerar(int quant)
+    void Gerar()
     {
-        for (int _ = 0; _ <= quant; _++)
+        MovimentoPeixes peixeSel = SortearPeixe();
+
+        for (int _ = 0; _ <= peixeSel.peixe.tamGrupo; _++)
         {
             cooldownPeixe = Time.time;
             float posXPeixe = Random.Range(0, 1) == 1 ? 20 : -20;
 
             Instantiate(
-                prefabsPeixes[Random.Range(0, prefabsPeixes.Length)], 
+                peixeSel, 
                 transform.position + new Vector3(posXPeixe, Random.Range(-10, 0)), 
                 Quaternion.identity
             );
         }
+    }
+
+    MovimentoPeixes SortearPeixe()
+    {
+        MovimentoPeixes peixeSel = null;
+        float pesoTotal = 0;
+        foreach (MovimentoPeixes peixe in prefabsPeixes)
+            pesoTotal += peixe.peixe.valor;
+        
+        float bobo = Random.Range(0, pesoTotal);
+
+        foreach (MovimentoPeixes peixe in prefabsPeixes)
+        {
+            pesoTotal -= bobo;
+
+            if (pesoTotal <= 0)
+            {
+                peixeSel = peixe;
+                break;
+            }
+        }
+
+        peixeSel = peixeSel == null ? prefabsPeixes[0] : peixeSel;
+
+        return peixeSel;
     }
 }
