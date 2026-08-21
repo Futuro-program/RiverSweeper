@@ -23,7 +23,7 @@ public class GeradorLixo : MonoBehaviour
             MovimentoLixo lixoSel = SortearLixo();
 
             Instantiate(
-                lixoSel, 
+                lixoSel.gameObject, 
                 transform.position + new Vector3(Random.Range(-12, 12), Random.Range(-10, 0)), 
                 Quaternion.identity
             );
@@ -32,8 +32,9 @@ public class GeradorLixo : MonoBehaviour
 
     MovimentoLixo SortearLixo()
     {
-        MovimentoLixo lixoSel = null;
+        MovimentoLixo lixoSel = Instantiate(prefabsLixo[Random.Range(0, prefabsLixo.Length)]);
         float pesoTotal = 0;
+
         foreach (MovimentoLixo lixo in prefabsLixo)
             pesoTotal += lixo.lixo.valor;
         
@@ -45,12 +46,10 @@ public class GeradorLixo : MonoBehaviour
 
             if (pesoTotal <= 0)
             {
-                lixoSel = lixo;
+                lixoSel = Instantiate(lixo);
                 break;
             }
         }
-
-        lixoSel = lixoSel == null ? prefabsLixo[0] : lixoSel;
 
         return lixoSel;
     }

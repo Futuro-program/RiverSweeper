@@ -1,30 +1,43 @@
 using UnityEngine;
 using Assets.Scripts.Estruturas;
 
-[RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(Rigidbody))]
 public class MovimentoPeixes : MonoBehaviour
 {
     public Peixe peixe;
-    MeshFilter malha;
+    public bool Travado {
+        get
+        {
+            return corpoRigido.constraints.HasFlag(RigidbodyConstraints.FreezeAll);
+        }
+        set
+        {
+            if (value)
+                corpoRigido.constraints = RigidbodyConstraints.FreezeAll;
+            else
+                corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
+        }
+    }
     Rigidbody corpoRigido;
-    [SerializeField] Mesh[] malhasSel;
+    [SerializeField] AudioClip somColeta;
     [SerializeField] float valor;
     [SerializeField] int tamGrupo, ampMovimento;
     [SerializeField] string tipo;
+    int direcao = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        malha = GetComponent<MeshFilter>();
-        malha.mesh = malhasSel[Random.Range(0, malhasSel.Length - 1)];
         corpoRigido = GetComponent<Rigidbody>();
-        corpoRigido.velocity = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5));
+
+        if (transform.position.x > 0)
+            direcao = -1;
     }
 
     void FixedUpdate()
     {
-        Mover();
+        if (!Travado)
+            Mover();
     }
 
     void Update() {
@@ -42,6 +55,19 @@ public class MovimentoPeixes : MonoBehaviour
 
     void Mover()
     {
-        corpoRigido.velocity = new Vector3(Mathf.Cos(Time.time / 2) * 10 + 1, Mathf.Sin(Time.time));
+        corpoRigido.velocity = new Vector3(
+            direcao * Mathf.Cos(10 * Time.time / (ampMovimento * ampMovimento)) * ampMovimento, 
+            Mathf.Sin(Time.time)
+        );
+    }
+
+    void OnCollisionEnter(Collision outro)
+    {
+        if (outro.gameObject.CompareTag("Player") && Travado)
+        {
+            Global.inst.PegarPeixe(peixe);
+            Audio.inst.TocarAudio(somColeta);
+            Destroy(gameObject);
+        }
     }
 }

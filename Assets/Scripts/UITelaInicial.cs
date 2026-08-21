@@ -6,9 +6,10 @@ using TMPro;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] GameObject painelLoja, painelCreditos, painelOpcoes, painelVerifCompra;
+    [SerializeField]
+    GameObject painelLoja, painelCreditos, painelOpcoes, painelVerifCompra, painelSelecaoFases;
     [SerializeField] LogicaBotao[] botoesCompra;
-    [SerializeField] TextMeshProUGUI textoImpedimentoCompra;
+    [SerializeField] TextMeshProUGUI textoImpedimentoCompra, painelHistoria;
     EstatsJogador estats;
     ItemCompra itemTentadoComprar;
 
@@ -18,9 +19,25 @@ public class UI : MonoBehaviour
         estats = FindObjectOfType<EstatsJogador>();
     }
 
-    public void Iniciar()
+    void Update()
     {
-        SceneManager.LoadScene("Scenes/Fase1");
+        if (painelHistoria.enabled)
+        {
+            painelHistoria.alpha = 
+        }
+    }
+
+    public void GerenciarSelecaoFases(bool abrir)
+    {
+        if (estats.CarregarEstatisticas().faseAtual == 1)
+            MostrarHistoria();
+        
+        painelSelecaoFases.SetActive(abrir);
+    }
+
+    public void Iniciar(int fase)
+    {
+        SceneManager.LoadScene($"Scenes/Fase{fase}");
     }
 
     public void Sair()
@@ -94,5 +111,10 @@ public class UI : MonoBehaviour
     public void EncarregarSeSliderMusica(float valor)
     {
         Audio.inst.VolumeMusica = valor;
+    }
+
+    void MostrarHistoria()
+    {
+        painelHistoria.enabled = true;
     }
 }

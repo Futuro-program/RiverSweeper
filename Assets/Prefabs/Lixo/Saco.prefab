@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f3b43068a7ad7344689ae646016d608c, type: 2}
+  - {fileID: 7185113703717246657, guid: 938ebc9bd43fc5847b06bc0585f9af7f, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,7 +128,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -150,5 +150,5 @@ MonoBehaviour:
   somColeta: {fileID: 8300000, guid: bd7e892c488fe0e4ba6674852779c815, type: 3}
   somSplash: {fileID: 8300000, guid: 29e1aeabb163ba7459ad713da477cd27, type: 3}
   valor: 0.5
-  volume: 0.05
+  volume: 0.5
   tipo: sacola

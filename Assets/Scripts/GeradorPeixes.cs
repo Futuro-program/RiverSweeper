@@ -25,15 +25,18 @@ public class GeradorPeixes : MonoBehaviour
     void Gerar()
     {
         MovimentoPeixes peixeSel = SortearPeixe();
+        float posXPeixe = Random.Range(0, 1) == 1 ? 20 : -20;
 
-        for (int _ = 0; _ <= peixeSel.peixe.tamGrupo; _++)
+        for (int i = 0; i <= peixeSel.peixe.tamGrupo; i++)
         {
             cooldownPeixe = Time.time;
-            float posXPeixe = Random.Range(0, 1) == 1 ? 20 : -20;
-
+            Vector3 posPeixeEsp = new(
+                posXPeixe + i * (-i + peixeSel.peixe.tamGrupo - 1),
+                peixeSel.peixe.tamGrupo > 1 ? -i * 5 / (peixeSel.peixe.tamGrupo - 1) : 2.5f
+            );
             Instantiate(
                 peixeSel, 
-                transform.position + new Vector3(posXPeixe, Random.Range(-10, 0)), 
+                transform.position + posPeixeEsp, 
                 Quaternion.identity
             );
         }
@@ -41,8 +44,9 @@ public class GeradorPeixes : MonoBehaviour
 
     MovimentoPeixes SortearPeixe()
     {
-        MovimentoPeixes peixeSel = null;
+        MovimentoPeixes peixeSel = Instantiate(prefabsPeixes[Random.Range(0, prefabsPeixes.Length)]);
         float pesoTotal = 0;
+
         foreach (MovimentoPeixes peixe in prefabsPeixes)
             pesoTotal += peixe.peixe.valor;
         
@@ -54,12 +58,10 @@ public class GeradorPeixes : MonoBehaviour
 
             if (pesoTotal <= 0)
             {
-                peixeSel = peixe;
+                peixeSel = Instantiate(peixe);
                 break;
             }
         }
-
-        peixeSel = peixeSel == null ? prefabsPeixes[0] : peixeSel;
 
         return peixeSel;
     }

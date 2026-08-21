@@ -62,7 +62,7 @@ public class MovimentoLixo : MonoBehaviour
         corpoRigido.AddForce(new Vector3(0, accel), ForceMode.Acceleration);
     }
     
-    void OnTriggerEnter(Collider outro)
+    void OnCollisionEnter(Collision outro)
     {
         if (outro.gameObject.CompareTag("Player") && Travado)
         {
@@ -70,7 +70,11 @@ public class MovimentoLixo : MonoBehaviour
             Audio.inst.TocarAudio(somColeta);
             Destroy(gameObject);
         }
-        else if (outro.gameObject.CompareTag("Water"))
+    }
+
+    void OnTriggerEnter(Collider outro)
+    {
+        if (outro.gameObject.CompareTag("Water"))
             Audio.inst.TocarAudio(somSplash);
     }
 

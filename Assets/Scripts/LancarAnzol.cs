@@ -132,7 +132,6 @@ public class LancamentoAnzol : MonoBehaviour
                 anzol.velocidade += (
                     transform.position - anzol.transform.position
                 ).normalized * forcaPuxada / anzol.massa;
-                anzol.accel = 1;
                 break;
             }
         }

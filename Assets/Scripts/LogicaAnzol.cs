@@ -16,7 +16,10 @@ public class LogicaAnzol : MonoBehaviour
             if (value)
                 corpoRigido.constraints = RigidbodyConstraints.FreezeAll;
             else
+            {
+                massa = 1;
                 corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
+            }
         }
     }
     [SerializeField] AudioClip somSplash;
@@ -76,6 +79,13 @@ public class LogicaAnzol : MonoBehaviour
             movLixo.transform.SetParent(transform);
             movLixo.transform.localPosition = Vector3.zero;
             massa += movLixo.massa; 
+        }
+        else if (outro.gameObject.CompareTag("Peixe"))
+        {
+            MovimentoPeixes movPeixe = outro.GetComponent<MovimentoPeixes>();
+            movPeixe.Travado = true;
+            movPeixe.transform.SetParent(transform);
+            movPeixe.transform.localPosition = Vector3.zero;
         }
         else if (outro.gameObject.CompareTag("Water") && !Travado)
             Audio.inst.TocarAudio(somSplash);

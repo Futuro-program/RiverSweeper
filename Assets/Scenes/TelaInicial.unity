@@ -271,7 +271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &95177945
 RectTransform:
   m_ObjectHideFlags: 0
@@ -831,8 +831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66245f0fb773521409096dcabce20b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgEquipar: {fileID: 21300000, guid: 8900fba2053787b4abf2b2ba6c81b957, type: 3}
-  imgEquipado: {fileID: 21300000, guid: 119c5492d7a442c4fbc0642937f4309b, type: 3}
+  imgEquipar: {fileID: 21300000, guid: aa4c719095ad38446a8ce43bd3111711, type: 3}
+  imgEquipado: {fileID: 21300000, guid: 1644e5596478de44abe77a3989dd9a4c, type: 3}
   varaSel: bambu
 --- !u!1 &369504048
 GameObject:
@@ -968,6 +968,7 @@ RectTransform:
   - {fileID: 996192708}
   - {fileID: 543338104}
   - {fileID: 95177945}
+  - {fileID: 1092926396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1743,8 +1744,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66245f0fb773521409096dcabce20b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgEquipar: {fileID: 21300000, guid: 8900fba2053787b4abf2b2ba6c81b957, type: 3}
-  imgEquipado: {fileID: 21300000, guid: 119c5492d7a442c4fbc0642937f4309b, type: 3}
+  imgEquipar: {fileID: 21300000, guid: aa4c719095ad38446a8ce43bd3111711, type: 3}
+  imgEquipado: {fileID: 21300000, guid: 1644e5596478de44abe77a3989dd9a4c, type: 3}
   varaSel: metal
 --- !u!1 &730453498
 GameObject:
@@ -2059,8 +2060,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66245f0fb773521409096dcabce20b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgEquipar: {fileID: 21300000, guid: 8900fba2053787b4abf2b2ba6c81b957, type: 3}
-  imgEquipado: {fileID: 21300000, guid: 119c5492d7a442c4fbc0642937f4309b, type: 3}
+  imgEquipar: {fileID: 21300000, guid: aa4c719095ad38446a8ce43bd3111711, type: 3}
+  imgEquipado: {fileID: 21300000, guid: 1644e5596478de44abe77a3989dd9a4c, type: 3}
   varaSel: ferro
 --- !u!1 &795941803
 GameObject:
@@ -2556,8 +2557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66245f0fb773521409096dcabce20b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgEquipar: {fileID: 21300000, guid: 8900fba2053787b4abf2b2ba6c81b957, type: 3}
-  imgEquipado: {fileID: 21300000, guid: 119c5492d7a442c4fbc0642937f4309b, type: 3}
+  imgEquipar: {fileID: 21300000, guid: aa4c719095ad38446a8ce43bd3111711, type: 3}
+  imgEquipado: {fileID: 21300000, guid: 1644e5596478de44abe77a3989dd9a4c, type: 3}
   varaSel: obsidiana
 --- !u!1 &1015027550
 GameObject:
@@ -2969,6 +2970,81 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1092926395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1092926396}
+  - component: {fileID: 1092926398}
+  - component: {fileID: 1092926397}
+  m_Layer: 5
+  m_Name: "Painel Hist\xF3ria"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1092926396
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092926395}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 396061594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1092926397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092926395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ac99e50d2c6b19d4498213f3a898d0ad, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1092926398
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092926395}
+  m_CullTransparentMesh: 1
 --- !u!1 &1140047193
 GameObject:
   m_ObjectHideFlags: 0
@@ -3464,8 +3540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66245f0fb773521409096dcabce20b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgEquipar: {fileID: 21300000, guid: 8900fba2053787b4abf2b2ba6c81b957, type: 3}
-  imgEquipado: {fileID: 21300000, guid: 119c5492d7a442c4fbc0642937f4309b, type: 3}
+  imgEquipar: {fileID: 21300000, guid: aa4c719095ad38446a8ce43bd3111711, type: 3}
+  imgEquipado: {fileID: 21300000, guid: 1644e5596478de44abe77a3989dd9a4c, type: 3}
   varaSel: madeira
 --- !u!1 &1325294557
 GameObject:

@@ -12,10 +12,11 @@ public class Global : MonoBehaviour
     [SerializeField] Transform luzGlobal;
     [SerializeField] TextMeshProUGUI lixoColetado, dinheiroObtido, tempoRestante;
     [SerializeField] AudioClip somVitoria, somDerrota;
+    [SerializeField] int minLixoFase;
     const int TEMPOFIM = 3;
-    readonly EstatsJogador estatsJogador;
+    EstatsJogador estatsJogador;
     float tDinheiroGanho = 0;
-    int cLixoColetado = 0;
+    int cLixoColetado = 0, cPeixesColetados = 0;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class Global : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        estatsJogador = FindObjectOfType<EstatsJogador>();
         lixoColetado.SetText($"{cLixoColetado}");
         dinheiroObtido.SetText($"{tDinheiroGanho:C}");
         tempoRestante.SetText($"{TimeSpan.FromMinutes(TEMPOFIM - (double)Time.time / 60):mm\\:ss}");
@@ -53,7 +55,7 @@ public class Global : MonoBehaviour
         estatsJogador.IncrementarLixoColetado(cLixoColetado);
         estatsJogador.Vender(tDinheiroGanho);
 
-        if (cLixoColetado >= 100)
+        if (cLixoColetado >= minLixoFase)
         {
             if (estatsJogador.CarregarEstatisticas().faseAtual == fase)
                 estatsJogador.PassarFase();
@@ -71,6 +73,13 @@ public class Global : MonoBehaviour
         cLixoColetado++;
         lixoColetado.SetText($"{cLixoColetado}");
         tDinheiroGanho += lixo.valor;
+        dinheiroObtido.SetText($"{tDinheiroGanho:C}");
+    }
+
+    public void PegarPeixe(Peixe peixe)
+    {
+        cPeixesColetados++;
+        tDinheiroGanho -= peixe.valor;
         dinheiroObtido.SetText($"{tDinheiroGanho:C}");
     }
 
