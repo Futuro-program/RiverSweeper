@@ -32,7 +32,7 @@ public class GeradorPeixes : MonoBehaviour
             cooldownPeixe = Time.time;
             Vector3 posPeixeEsp = new(
                 posXPeixe + i * (-i + peixeSel.peixe.tamGrupo - 1),
-                peixeSel.peixe.tamGrupo > 1 ? -i * 5 / (peixeSel.peixe.tamGrupo - 1) : 2.5f
+                peixeSel.peixe.tamGrupo > 1 ? -i * 5 / (peixeSel.peixe.tamGrupo - 1) : -2.5f
             );
             Instantiate(
                 peixeSel, 

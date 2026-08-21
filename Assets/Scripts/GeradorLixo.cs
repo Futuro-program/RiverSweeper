@@ -24,7 +24,7 @@ public class GeradorLixo : MonoBehaviour
 
             Instantiate(
                 lixoSel.gameObject, 
-                transform.position + new Vector3(Random.Range(-12, 12), Random.Range(-10, 0)), 
+                transform.position + new Vector3(Random.Range(-12, 12), Random.Range(-5, 0)), 
                 Quaternion.identity
             );
         }

@@ -65,7 +65,7 @@ public class LancamentoAnzol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool pressBotao = Input.GetKeyDown(KeyCode.Space);
+        bool pressBotao = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
 
         switch (estado)
         {
@@ -130,7 +130,7 @@ public class LancamentoAnzol : MonoBehaviour
             {
                 Audio.inst.TocarAudioLoop(somPuxada);
                 anzol.velocidade += (
-                    transform.position - anzol.transform.position
+                    barco.transform.position - anzol.transform.position
                 ).normalized * forcaPuxada / anzol.massa;
                 break;
             }
