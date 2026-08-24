@@ -15,8 +15,6 @@ public class EstatsJogador : MonoBehaviour
 
         try
         {
-            /*jog = new(0, 0, 1, "madeira", new string[] {"madeira"});
-            servicoDados.SalvarDados(CAMINHORELATIVO, jog, true);*/
             jog = servicoDados.CarregarDados<Jogador>(CAMINHORELATIVO, true);
         }
         catch (FileNotFoundException)
@@ -93,11 +91,20 @@ public class EstatsJogador : MonoBehaviour
         Jogador jog = CarregarEstatisticas();
 
         string[] varasCompradas = (string[])jog.varasCompradas.Clone();
-        varasCompradas[varasCompradas.Length] = novaVara;
+        
+        Array.Resize(ref varasCompradas, varasCompradas.Length + 1);
+
+        varasCompradas[^1] = novaVara;
 
         Jogador novoJog = new(
             jog.dinheiro, jog.totalLixoColetado, jog.faseAtual, novaVara, varasCompradas
         );
         servicoDados.SalvarDados(CAMINHORELATIVO, novoJog, true);
+    }
+
+    public void RedefinirProgresso()
+    {
+        Jogador jog = new(0, 0, 1, "madeira", new string[] {"madeira"});
+        servicoDados.SalvarDados(CAMINHORELATIVO, jog, true);
     }
 }

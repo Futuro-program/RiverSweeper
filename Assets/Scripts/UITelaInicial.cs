@@ -8,27 +8,29 @@ using TMPro;
 public class UI : MonoBehaviour
 {
     [SerializeField]
-    GameObject painelLoja, painelCreditos, painelOpcoes, painelVerifCompra, painelSelecaoFases;
-    [SerializeField] LogicaBotao[] botoesCompra;
-    [SerializeField] TextMeshProUGUI textoImpedimentoCompra;
+    GameObject painelLoja, painelCreditos, painelOpcoes, painelVerifCompra, painelSelecaoFases, painelReset;
+    [SerializeField] TextMeshProUGUI textoImpedimentoCompra, textoImpedimentoFase, contadorDinheiro;
     [SerializeField] Image painelHistoria;
+    [SerializeField] LogicaBotao[] botoesCompra;
     EstatsJogador estats;
+    AuxAnimAlpha animadorAlpha;
     ItemCompra itemTentadoComprar;
-    float tempoHistoria;
-    int estadoHistoria = 0;
+    float tempoHistoria, tempoInicio;
+    int estadoHistoria = 0, faseTentandoEntrar = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         estats = FindObjectOfType<EstatsJogador>();
+        animadorAlpha = FindObjectOfType<AuxAnimAlpha>();
     }
 
     void Update()
     {
         if (estadoHistoria == 1)
         {
-            painelHistoria.enabled = true;
-            painelHistoria.color = new Color(255, 255, 255, Mathf.Lerp(0, 255, Time.time - tempoHistoria));
+            painelHistoria.gameObject.SetActive(true);
+            painelHistoria.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, Time.time - tempoHistoria));
 
             if (Time.time - tempoHistoria >= 1)
             {
@@ -36,19 +38,47 @@ public class UI : MonoBehaviour
                 estadoHistoria = 2;
             }
         }
-        else if (estadoHistoria == 2 && Time.time - tempoHistoria >= 4)
+        else if (estadoHistoria == 2 && Time.time - tempoHistoria >= 20)
         {
             tempoHistoria = Time.time; 
             estadoHistoria = 3;
         }
         else if (estadoHistoria == 3)
         {
-            painelHistoria.enabled = true;
-            painelHistoria.color = new Color(255, 255, 255, Mathf.Lerp(0, 255, Time.time - tempoHistoria));
+            painelHistoria.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, Time.time - tempoHistoria));
 
             if (Time.time - tempoHistoria >= 1)
+            {
+                painelHistoria.gameObject.SetActive(false);
                 estadoHistoria = 0;
+            }
         }
+
+        if (Time.time - tempoInicio > 1 && tempoInicio != 0)
+            IniciarDeFato();
+    }
+
+    void MostrarHistoria()
+    {
+        estadoHistoria = 1;
+        tempoHistoria = Time.time;
+    }
+
+    void IniciarDeFato()
+    {
+        SceneManager.LoadScene($"Scenes/Fase{faseTentandoEntrar}");
+    }
+
+    void AtualizarContadorDinheiro()
+    {
+        float novoValor = estats.CarregarEstatisticas().dinheiro;
+        contadorDinheiro.SetText($"{novoValor:C}");
+    }
+
+    public void PularHistoria()
+    {
+        estadoHistoria = 0;
+        painelHistoria.gameObject.SetActive(false);
     }
 
     public void GerenciarSelecaoFases(bool abrir)
@@ -61,7 +91,14 @@ public class UI : MonoBehaviour
 
     public void Iniciar(int fase)
     {
-        SceneManager.LoadScene($"Scenes/Fase{fase}");
+        if (estats.CarregarEstatisticas().faseAtual >= fase)
+        {
+            faseTentandoEntrar = fase;
+            tempoInicio = Time.time;
+            animadorAlpha.AnimarAparecer(painelHistoria, 1, true);
+        }
+        else
+            textoImpedimentoFase.SetText("Precisa concluir a fase anterior!");
     }
 
     public void Sair()
@@ -82,6 +119,12 @@ public class UI : MonoBehaviour
     public void GerenciarLoja(bool abrir)
     {
         painelLoja.SetActive(abrir);
+        AtualizarContadorDinheiro();
+    }
+
+    public void GerenciarReset(bool abrir)
+    {
+        painelReset.SetActive(abrir);
     }
 
     public void ComprarOuEquipar(Item item)
@@ -107,10 +150,13 @@ public class UI : MonoBehaviour
         {
             try
             {
-                estats.Pagar(itemTentadoComprar.valor);
                 estats.AdicionarVara(itemTentadoComprar.nome);
+                estats.Pagar(itemTentadoComprar.valor);
+
                 foreach (var botao in botoesCompra)
                     botao.Verificar();
+                
+                AtualizarContadorDinheiro();
             }
             catch (Exception e)
             {
@@ -137,9 +183,9 @@ public class UI : MonoBehaviour
         Audio.inst.VolumeMusica = valor;
     }
 
-    void MostrarHistoria()
+    public void RedefinirProgresso()
     {
-        estadoHistoria = 1;
-        tempoHistoria = Time.time;
+        estats.RedefinirProgresso();
+        painelReset.SetActive(false);
     }
 }

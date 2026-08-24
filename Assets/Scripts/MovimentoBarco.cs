@@ -43,9 +43,15 @@ public class MovimentoBarco : MonoBehaviour
         }
 
         corpoRigido.MovePosition(corpoRigido.position + Time.deltaTime * modVelocidade * movimentoX * Vector3.right);
-        if (Mathf.Abs(corpoRigido.position.x) > 185)
+        if (corpoRigido.position.x > 202)
             corpoRigido.MovePosition(new Vector3(
-                185 * Mathf.Abs(corpoRigido.position.x) / corpoRigido.position.x, 
+                202, 
+                corpoRigido.position.y,
+                corpoRigido.position.z
+            ));
+        else if (corpoRigido.position.x < -185)
+            corpoRigido.MovePosition(new Vector3(
+                -185, 
                 corpoRigido.position.y,
                 corpoRigido.position.z
             ));

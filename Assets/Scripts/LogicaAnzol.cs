@@ -80,7 +80,7 @@ public class LogicaAnzol : MonoBehaviour
             movLixo.transform.localPosition = Vector3.zero;
             massa += movLixo.massa; 
         }
-        else if (outro.gameObject.CompareTag("Peixe"))
+        else if (outro.gameObject.CompareTag("Peixe") && !Travado)
         {
             MovimentoPeixes movPeixe = outro.GetComponent<MovimentoPeixes>();
             movPeixe.Travado = true;

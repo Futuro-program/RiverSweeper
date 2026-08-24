@@ -2,6 +2,7 @@ using UnityEngine;
 using Assets.Scripts.Estruturas;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public class MovimentoLixo : MonoBehaviour
 {
     public Lixo lixo;
@@ -19,10 +20,11 @@ public class MovimentoLixo : MonoBehaviour
                 corpoRigido.constraints = RigidbodyConstraints.FreezePositionZ;
         }
     }
-    [SerializeField] AudioClip somColeta, somSplash;
+    [SerializeField] AudioClip somColeta;
     [SerializeField] float valor, volume;
     [SerializeField] string tipo;
     Rigidbody corpoRigido;
+    AudioSource fonteAudio;
     const float ACCELGRAVIDADE = 10;
     float accel;
     bool submergido;
@@ -32,6 +34,7 @@ public class MovimentoLixo : MonoBehaviour
     {
         corpoRigido = GetComponent<Rigidbody>();
         corpoRigido.velocity = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5));
+        fonteAudio = GetComponent<AudioSource>();
 
         lixo = new(valor, massa, volume, tipo);
     }
@@ -75,7 +78,7 @@ public class MovimentoLixo : MonoBehaviour
     void OnTriggerEnter(Collider outro)
     {
         if (outro.gameObject.CompareTag("Water"))
-            Audio.inst.TocarAudio(somSplash);
+            TocarSomSplash();
     }
 
     void OnTriggerStay(Collider outro)
@@ -88,5 +91,11 @@ public class MovimentoLixo : MonoBehaviour
     {
         if (outro.gameObject.CompareTag("Water"))
             submergido = false;
+    }
+
+    void TocarSomSplash()
+    {
+        fonteAudio.volume = Audio.inst.VolumeSons;
+        fonteAudio.Play();
     }
 }

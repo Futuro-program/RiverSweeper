@@ -104,9 +104,9 @@ public class LancamentoAnzol : MonoBehaviour
                 if (pressBotao)
                 {
                     Audio.inst.TocarAudio(somLancamento);
-                    anzol.velocidade += new Vector3(
+                    anzol.velocidade = new Vector3(
                         Mathf.Cos(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento * barco.lado, 
-                        Mathf.Sin(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento + 20
+                        Mathf.Sin(anguloLancamento * Mathf.Deg2Rad) * forcaLancamento
                     );
                     
                     estado = 2;
@@ -137,7 +137,7 @@ public class LancamentoAnzol : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider outro)
+    void OnTriggerStay(Collider outro)
     {
         if (outro.gameObject.CompareTag("Anzol") && estado == 3)
         {

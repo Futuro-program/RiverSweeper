@@ -1,6 +1,7 @@
 using UnityEngine;
 using Assets.Scripts.Estruturas;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
 public class MovimentoPeixes : MonoBehaviour
 {
@@ -23,15 +24,19 @@ public class MovimentoPeixes : MonoBehaviour
     [SerializeField] float valor;
     [SerializeField] int tamGrupo, ampMovimento;
     [SerializeField] string tipo;
+    Animator animador;
     int direcao = 1;
 
     // Start is called before the first frame update
     void Start()
     {
+        animador = GetComponent<Animator>();
         corpoRigido = GetComponent<Rigidbody>();
 
         if (transform.position.x > 0)
             direcao = -1;
+        
+        peixe = new(valor, tamGrupo, ampMovimento, tipo);
     }
 
     void FixedUpdate()
@@ -59,6 +64,11 @@ public class MovimentoPeixes : MonoBehaviour
             direcao * Mathf.Cos(10 * Time.time / (ampMovimento * ampMovimento)) * ampMovimento, 
             Mathf.Sin(Time.time)
         );
+
+        if (corpoRigido.velocity.x > 0)
+            Global.inst.CoordenarAnimacaoBool(animador, "VirarDireita");
+        else if (corpoRigido.velocity.x < 0)
+            Global.inst.CoordenarAnimacaoBool(animador, "VirarEsquerda");
     }
 
     void OnCollisionEnter(Collision outro)
