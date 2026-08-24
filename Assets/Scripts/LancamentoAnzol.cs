@@ -65,7 +65,8 @@ public class LancamentoAnzol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool pressBotao = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
+        bool pressBotao = (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) 
+            && !Global.inst.pausado;
 
         switch (estado)
         {
