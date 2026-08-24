@@ -1777,7 +1777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3004093272281716194, guid: 1401ef52030641c4ab82e6c59ea0a902, type: 3}
       propertyPath: valor
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3004093272281716194, guid: 1401ef52030641c4ab82e6c59ea0a902, type: 3}
       propertyPath: tamGrupo
